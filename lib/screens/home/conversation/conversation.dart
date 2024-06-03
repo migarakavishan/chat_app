@@ -1,7 +1,7 @@
 import 'package:chat_app/screens/chat/chat_screen.dart';
+import 'package:chat_app/screens/home/users/users.dart';
 import 'package:chat_app/utils/navigation/custom_navigation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class ConversationScreen extends StatefulWidget {
   const ConversationScreen({super.key});
@@ -45,7 +45,8 @@ class _ConversationScreenState extends State<ConversationScreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: GestureDetector(
                         onTap: () {
-                          CustomNavigation.nextPage(context, const ChatScreen());
+                          CustomNavigation.nextPage(
+                              context, const ChatScreen());
                         },
                         child: Container(
                           decoration: BoxDecoration(
@@ -75,6 +76,12 @@ class _ConversationScreenState extends State<ConversationScreen> {
           ],
         ),
       )),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          CustomNavigation.nextPage(context, const UsersScreen());
+        },
+        child: const Icon(Icons.people),
+      ),
     );
   }
 }

@@ -1,8 +1,8 @@
-import 'package:chat_app/screens/chat/chat_screen.dart';
 import 'package:chat_app/screens/home/users/users.dart';
 import 'package:chat_app/utils/navigation/custom_navigation.dart';
 import 'package:flutter/material.dart';
 
+import 'widgets/conversation_list.dart';
 import 'widgets/header.dart';
 
 class ConversationScreen extends StatefulWidget {
@@ -16,49 +16,11 @@ class _ConversationScreenState extends State<ConversationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
+      body: const SafeArea(
           child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: EdgeInsets.all(8.0),
         child: Column(
-          children: [
-            const Header(),
-            Expanded(
-              child: ListView.builder(
-                  itemCount: 20,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: GestureDetector(
-                        onTap: () {
-                          CustomNavigation.nextPage(
-                              context, const ChatScreen());
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.grey.shade300,
-                              borderRadius: BorderRadius.circular(20)),
-                          child: ListTile(
-                            title: const Text(
-                              "Kamal Bandara",
-                              style: TextStyle(fontWeight: FontWeight.w500),
-                            ),
-                            subtitle: Text(
-                              "this is new message",
-                              style: TextStyle(color: Colors.grey.shade800),
-                            ),
-                            leading: const CircleAvatar(
-                              radius: 16,
-                              backgroundImage: NetworkImage(
-                                  "https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg"),
-                            ),
-                            trailing: const Text("18:25"),
-                          ),
-                        ),
-                      ),
-                    );
-                  }),
-            )
-          ],
+          children: [Header(), ConversationList()],
         ),
       )),
       floatingActionButton: FloatingActionButton(

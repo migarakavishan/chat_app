@@ -1,5 +1,6 @@
-
+import 'package:chat_app/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Header extends StatelessWidget {
   const Header({
@@ -20,10 +21,14 @@ class Header extends StatelessWidget {
                   fontWeight: FontWeight.w600),
             ),
             const Spacer(),
-            const CircleAvatar(
-              radius: 16,
-              backgroundImage: NetworkImage(
-                  "https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg"),
+            GestureDetector(
+              onTap: () {
+                Provider.of<AuthProvider>(context , listen: false).signOut();
+              },
+              child: CircleAvatar(
+                  radius: 16,
+                  backgroundImage: NetworkImage(
+                      Provider.of<AuthProvider>(context).user!.photoURL!)),
             )
           ],
         ),

@@ -1,4 +1,5 @@
 import 'package:chat_app/controllers/auth_controller.dart';
+import 'package:chat_app/models/user_model.dart';
 import 'package:chat_app/screens/auth/sign_in_page.dart';
 import 'package:chat_app/screens/home/conversation/conversation.dart';
 import 'package:chat_app/utils/navigation/custom_navigation.dart';
@@ -29,7 +30,17 @@ class AuthProvider extends ChangeNotifier {
     final credetial = await authController.signInWithGoogle();
 
     if (credetial != null) {
-      Logger().f(credetial.user!.email);
+      UserModel user = UserModel(
+          name: _user!.displayName!,
+          image: _user!.photoURL!,
+          isOnline: true,
+          lastSeen: DateTime.now().toString(),
+          uid: _user!.uid);
+      await authController.saveUserData(user);
     }
+  }
+
+  Future<void> signOut() async {
+    authController.userSignOut();
   }
 }

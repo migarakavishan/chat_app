@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "557343289723",
+    "project_id": "chat-app-migara",
+    "storage_bucket": "chat-app-migara.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:557343289723:android:203bcf89ad9fa79a564dde",
+        "android_client_info": {
+          "package_name": "lk.migara.chatapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "557343289723-gpv9rkd2a67ioqg6ok8r1d8jd335l8cd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "lk.migara.chatapp",
+            "certificate_hash": "a123fa41450df6f562b96e1e7ec165bc76d89718"
+          }
+        },
+        {
+          "client_id": "557343289723-vo3268u4q2p1phch0u3j8om2a1lg7j1a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyANOy9qqRtHPUOGxr9cDsju1sCn79uAEHs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "557343289723-vo3268u4q2p1phch0u3j8om2a1lg7j1a.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "557343289723-7h5tu1dj9aqp133sib48elc6e3bp87vm.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "lk.migara.chatapp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

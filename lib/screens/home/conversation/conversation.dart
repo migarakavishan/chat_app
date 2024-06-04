@@ -3,6 +3,8 @@ import 'package:chat_app/screens/home/users/users.dart';
 import 'package:chat_app/utils/navigation/custom_navigation.dart';
 import 'package:flutter/material.dart';
 
+import 'widgets/header.dart';
+
 class ConversationScreen extends StatefulWidget {
   const ConversationScreen({super.key});
 
@@ -19,24 +21,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            Row(
-              children: [
-                Text(
-                  "My Chat",
-                  style: TextStyle(
-                      fontSize: 28,
-                      color: Colors.grey.shade800,
-                      fontWeight: FontWeight.w600),
-                ),
-                const Spacer(),
-                const CircleAvatar(
-                  radius: 16,
-                  backgroundImage: NetworkImage(
-                      "https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg"),
-                )
-              ],
-            ),
-            const Divider(),
+            const Header(),
             Expanded(
               child: ListView.builder(
                   itemCount: 20,

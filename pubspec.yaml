@@ -39,6 +39,10 @@ dependencies:
   provider: ^6.1.2
   flutter_signin_button: ^2.0.0
   chat_bubbles: ^1.6.0
+  rename: ^3.0.2
+  firebase_core: ^2.32.0
+  firebase_auth: ^4.20.0
+  google_sign_in: ^6.2.1
 
 dev_dependencies:
   flutter_test:

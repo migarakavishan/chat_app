@@ -1,7 +1,9 @@
 import 'package:chat_app/controllers/users_controller.dart';
 import 'package:chat_app/models/user_model.dart';
+import 'package:chat_app/providers/chat_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 import '../../../utils/navigation/custom_navigation.dart';
@@ -66,8 +68,14 @@ class _UsersScreenState extends State<UsersScreen> {
                               padding: const EdgeInsets.all(8.0),
                               child: GestureDetector(
                                 onTap: () {
+                                  Provider.of<ChatProvider>(context,
+                                          listen: false)
+                                      .setUser(uList[index]);
                                   CustomNavigation.nextPage(
-                                      context, const ChatScreen());
+                                      context,
+                                      ChatScreen(
+                                        user: uList[index],
+                                      ));
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(

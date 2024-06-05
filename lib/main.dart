@@ -1,4 +1,5 @@
 import 'package:chat_app/providers/auth_provider.dart';
+import 'package:chat_app/providers/chat_provider.dart';
 import 'package:chat_app/providers/user_provider.dart';
 import 'package:chat_app/screens/splash_screens/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -15,7 +16,8 @@ Future<void> main() async {
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (context) => AuthProvider()),
-      ChangeNotifierProvider(create: (context) => UserProvider())
+      ChangeNotifierProvider(create: (context) => UserProvider()),
+      ChangeNotifierProvider(create: (context) => ChatProvider())
     ],
     child: const MyApp(),
   ));

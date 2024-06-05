@@ -1,8 +1,14 @@
+import 'package:chat_app/models/user_model.dart';
+import 'package:chat_app/providers/chat_provider.dart';
 import 'package:chat_bubbles/chat_bubbles.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'widgets/header.dart';
 
 class ChatScreen extends StatefulWidget {
-  const ChatScreen({super.key});
+  const ChatScreen({super.key, this.user});
+  final UserModel? user;
 
   @override
   State<ChatScreen> createState() => _ChatScreenState();
@@ -15,38 +21,22 @@ class _ChatScreenState extends State<ChatScreen> {
       body: SafeArea(
           child: Column(
         children: [
-          Row(
-            children: [
-              const BackButton(),
-              const CircleAvatar(
-                radius: 16,
-                backgroundImage: NetworkImage(
-                    "https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg"),
-              ),
-              const SizedBox(
-                width: 5,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Kamal Bandara",
-                    style: TextStyle(
-                        color: Colors.grey.shade800,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w500),
-                  ),
-                  Text(
-                    "Last seen at 18:45",
-                    style: TextStyle(
-                      color: Colors.grey.shade500,
-                      fontSize: 14,
-                    ),
-                  )
-                ],
-              )
-            ],
-          ),
+          StreamBuilder(
+              stream:
+                  Provider.of<ChatProvider>(context).startListenToUserData(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  // return ChatHeader(user: null, userModel: widget.user);
+                }
+                if (snapshot.hasError) {
+                  return ChatHeader(user: null, userModel: widget.user);
+                }
+                UserModel? user = snapshot.data;
+                return ChatHeader(
+                  user: user,
+                  userModel: widget.user,
+                );
+              }),
           const Divider(),
           Expanded(
             child: ListView.builder(

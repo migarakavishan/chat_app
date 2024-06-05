@@ -19,7 +19,7 @@ class ConversationList extends StatelessWidget {
               child: GestureDetector(
                 onTap: () {
                   CustomNavigation.nextPage(
-                      context, const ChatScreen());
+                      context, ChatScreen( ));
                 },
                 child: Container(
                   decoration: BoxDecoration(

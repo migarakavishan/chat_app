@@ -71,30 +71,41 @@ class _ChatScreenState extends State<ChatScreen> {
                   );
                 }),
           ),
-          MessageBar(
-            onSend: (_) => print(_),
-            actions: [
-              InkWell(
-                child: const Icon(
-                  Icons.add,
-                  color: Colors.black,
-                  size: 24,
-                ),
-                onTap: () {},
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 8, right: 8),
-                child: InkWell(
-                  child: const Icon(
-                    Icons.camera_alt,
-                    color: Colors.green,
-                    size: 24,
-                  ),
-                  onTap: () {},
-                ),
-              ),
-            ],
-          ),
+          Container(
+            height: 70,
+            color: Colors.white,
+            child: Row(
+              children: [
+                Expanded(
+                    child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      decoration: BoxDecoration(
+                          color: Colors.grey.shade200,
+                          borderRadius: BorderRadius.circular(25)),
+                      child: TextField(
+                        controller:
+                            Provider.of<ChatProvider>(context, listen: false)
+                                .msgController,
+                        maxLines: 2,
+                        minLines: 1,
+                        decoration: const InputDecoration(
+                            border: InputBorder.none, hintText: "Message"),
+                      )),
+                )),
+                IconButton(
+                    onPressed: () {
+                      Provider.of<ChatProvider>(context, listen: false)
+                          .startSendMessage(context);
+                    },
+                    icon: const Icon(
+                      Icons.send,
+                      color: Colors.blue,
+                    ))
+              ],
+            ),
+          )
         ],
       )),
     );

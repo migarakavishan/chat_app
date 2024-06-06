@@ -18,8 +18,7 @@ class ConversationList extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: GestureDetector(
                 onTap: () {
-                  CustomNavigation.nextPage(
-                      context, ChatScreen( ));
+                  CustomNavigation.nextPage(context, const ChatScreen());
                 },
                 child: Container(
                   decoration: BoxDecoration(

@@ -1,7 +1,10 @@
+import 'package:chat_app/models/conversation_model.dart';
+import 'package:chat_app/providers/chat_provider.dart';
+import 'package:chat_app/screens/chat/chat_screen.dart';
+import 'package:chat_app/utils/navigation/custom_navigation.dart';
 import 'package:flutter/material.dart';
-
-import '../../../../utils/navigation/custom_navigation.dart';
-import '../../../chat/chat_screen.dart';
+import 'package:logger/logger.dart';
+import 'package:provider/provider.dart';
 
 class ConversationList extends StatelessWidget {
   const ConversationList({
@@ -11,38 +14,59 @@ class ConversationList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: ListView.builder(
-          itemCount: 20,
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: GestureDetector(
-                onTap: () {
-                  CustomNavigation.nextPage(context, const ChatScreen());
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: Colors.grey.shade300,
-                      borderRadius: BorderRadius.circular(20)),
-                  child: ListTile(
-                    title: const Text(
-                      "Kamal Bandara",
-                      style: TextStyle(fontWeight: FontWeight.w500),
+      child: StreamBuilder(
+          stream: Provider.of<ChatProvider>(context, listen: false)
+              .startFetchConversation(context),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+
+            if (snapshot.hasError) {}
+
+            List<ConversationModel> conversations = snapshot.data!;
+            return ListView.builder(
+                itemCount: conversations.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: GestureDetector(
+                      onTap: () {
+                        Logger().f(conversations[index].user.toJson());
+                        Provider.of<ChatProvider>(context, listen: false)
+                            .setUser(conversations[index].user);
+                        CustomNavigation.nextPage(
+                            context,
+                            ChatScreen(
+                              user: conversations[index].user,
+                            ));
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.grey.shade300,
+                            borderRadius: BorderRadius.circular(20)),
+                        child: ListTile(
+                          title: Text(
+                            conversations[index].user.name,
+                            style: const TextStyle(fontWeight: FontWeight.w500),
+                          ),
+                          subtitle: Text(
+                            conversations[index].lastMessage,
+                            style: TextStyle(color: Colors.grey.shade800),
+                          ),
+                          leading: CircleAvatar(
+                            radius: 16,
+                            backgroundImage:
+                                NetworkImage(conversations[index].user.image),
+                          ),
+                          trailing: const Text("18:25"),
+                        ),
+                      ),
                     ),
-                    subtitle: Text(
-                      "this is new message",
-                      style: TextStyle(color: Colors.grey.shade800),
-                    ),
-                    leading: const CircleAvatar(
-                      radius: 16,
-                      backgroundImage: NetworkImage(
-                          "https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg"),
-                    ),
-                    trailing: const Text("18:25"),
-                  ),
-                ),
-              ),
-            );
+                  );
+                });
           }),
     );
   }

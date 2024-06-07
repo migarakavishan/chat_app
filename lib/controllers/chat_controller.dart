@@ -61,4 +61,15 @@ class ChatController {
       Logger().f('Added Conversation To ${senderConModel.user.name}');
     });
   }
+
+  Stream<List<ConversationModel>> getConversations(String uid) {
+    List<ConversationModel> list = [];
+    return conCollection.doc(uid).collection('List').snapshots().map((event) {
+      for (var element in event.docs) {
+        ConversationModel conModel = ConversationModel.fromJson(element.data());
+        list.add(conModel);
+      }
+      return list;
+    });
+  }
 }

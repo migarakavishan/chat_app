@@ -65,4 +65,9 @@ class ChatProvider extends ChangeNotifier {
       });
     }
   }
+
+  Stream<List<ConversationModel>> startFetchConversation(BuildContext context) {
+    String uid = Provider.of<auth_provider.AuthProvider>(context, listen: false).user!.uid;
+    return ChatController().getConversations(uid);
+  }
 }

@@ -5,6 +5,7 @@ import 'package:chat_app/utils/navigation/custom_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class ConversationList extends StatelessWidget {
   const ConversationList({
@@ -61,7 +62,8 @@ class ConversationList extends StatelessWidget {
                             backgroundImage:
                                 NetworkImage(conversations[index].user.image),
                           ),
-                          trailing: const Text("18:25"),
+                          trailing: Text(
+                              timeago.format(conversations[index].lastTime)),
                         ),
                       ),
                     ),

@@ -20,7 +20,6 @@ class ChatProvider extends ChangeNotifier {
     final stream = ChatController().listenToUser(_user!.uid);
     stream.listen((model) {
       _user = model;
-      notifyListeners();
     });
 
     return stream;
@@ -58,12 +57,13 @@ class ChatProvider extends ChangeNotifier {
           lastTime: DateTime.now(),
           user: _me!);
       ChatController()
-          .sendMessage(senderConModel, recieverConModel, message)
-          .then((value) {
-        _msgController.clear();
-        notifyListeners();
-      });
+          .sendMessage(senderConModel, recieverConModel, message, context);
     }
+  }
+
+  void clearMessageBox() {
+    _msgController.clear();
+    notifyListeners();
   }
 
   Stream<List<ConversationModel>> startFetchConversation(BuildContext context) {

@@ -1,3 +1,4 @@
+import 'package:chat_app/controllers/notification_controller.dart';
 import 'package:chat_app/providers/user_provider.dart';
 import 'package:chat_app/screens/home/users/users.dart';
 import 'package:chat_app/utils/navigation/custom_navigation.dart';
@@ -21,6 +22,9 @@ class _ConversationScreenState extends State<ConversationScreen>
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+    NotificationController().updateToken();
+    NotificationController().handleForeground();
+    NotificationController().setupInteractedMessage();
   }
 
   @override

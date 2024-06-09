@@ -1,7 +1,10 @@
 import 'package:chat_app/models/conversation_model.dart';
 import 'package:chat_app/models/message_model.dart';
+import 'package:chat_app/providers/chat_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
+import 'package:provider/provider.dart';
 
 import '../models/user_model.dart';
 
@@ -20,10 +23,23 @@ class ChatController {
   CollectionReference conCollection =
       FirebaseFirestore.instance.collection('Conversation');
 
-  Future<void> sendMessage(ConversationModel senderConModel,
-      ConversationModel recieverConModel, MessageModel messageModel) async {
+  Future<void> sendMessage(
+      ConversationModel senderConModel,
+      ConversationModel recieverConModel,
+      MessageModel messageModel,
+      BuildContext context) async {
     String messageID = msgCollection.doc().id;
     messageModel.id = messageID;
+
+    await msgCollection
+        .doc(senderConModel.user.uid)
+        .collection(recieverConModel.user.uid)
+        .doc(messageID)
+        .set(messageModel.toJson())
+        .then((value) {
+      Provider.of<ChatProvider>(context, listen: false).clearMessageBox();
+      Logger().f('Added Message To ${senderConModel.user.name}');
+    });
 
     await msgCollection
         .doc(recieverConModel.user.uid)
@@ -34,13 +50,13 @@ class ChatController {
       Logger().f('Added Message To ${recieverConModel.user.name}');
     });
 
-    await msgCollection
+    await conCollection
         .doc(senderConModel.user.uid)
-        .collection(recieverConModel.user.uid)
-        .doc(messageID)
-        .set(messageModel.toJson())
+        .collection('List')
+        .doc(recieverConModel.user.uid)
+        .set(recieverConModel.toJson())
         .then((value) {
-      Logger().f('Added Message To ${senderConModel.user.name}');
+      Logger().f('Added Conversation To ${senderConModel.user.name}');
     });
 
     await conCollection
@@ -50,15 +66,6 @@ class ChatController {
         .set(senderConModel.toJson())
         .then((value) {
       Logger().f('Added Conversation To ${recieverConModel.user.name}');
-    });
-
-    await conCollection
-        .doc(senderConModel.user.uid)
-        .collection('List')
-        .doc(recieverConModel.user.uid)
-        .set(recieverConModel.toJson())
-        .then((value) {
-      Logger().f('Added Conversation To ${senderConModel.user.name}');
     });
   }
 

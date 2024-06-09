@@ -45,6 +45,7 @@ dependencies:
   google_sign_in: ^6.2.1
   cloud_firestore: ^4.17.5
   timeago: ^3.6.1
+  firebase_messaging: ^14.9.4
 
 dev_dependencies:
   flutter_test:

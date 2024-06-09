@@ -28,47 +28,56 @@ class ConversationList extends StatelessWidget {
             if (snapshot.hasError) {}
 
             List<ConversationModel> conversations = snapshot.data!;
-            return ListView.builder(
-                itemCount: conversations.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: GestureDetector(
-                      onTap: () {
-                        Logger().f(conversations[index].user.toJson());
-                        Provider.of<ChatProvider>(context, listen: false)
-                            .setUser(conversations[index].user);
-                        CustomNavigation.nextPage(
-                            context,
-                            ChatScreen(
-                              user: conversations[index].user,
-                            ));
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: Colors.grey.shade300,
-                            borderRadius: BorderRadius.circular(20)),
-                        child: ListTile(
-                          title: Text(
-                            conversations[index].user.name,
-                            style: const TextStyle(fontWeight: FontWeight.w500),
+            return conversations.isNotEmpty
+                ? ListView.builder(
+                    itemCount: conversations.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: GestureDetector(
+                          onTap: () {
+                            Logger().f(conversations[index].user.toJson());
+                            Provider.of<ChatProvider>(context, listen: false)
+                                .setUser(conversations[index].user);
+                            CustomNavigation.nextPage(
+                                context,
+                                ChatScreen(
+                                  user: conversations[index].user,
+                                ));
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Colors.grey.shade300,
+                                borderRadius: BorderRadius.circular(20)),
+                            child: ListTile(
+                              title: Text(
+                                conversations[index].user.name,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.w500),
+                              ),
+                              subtitle: Text(
+                                conversations[index].lastMessage,
+                                style: TextStyle(color: Colors.grey.shade800),
+                              ),
+                              leading: CircleAvatar(
+                                radius: 16,
+                                backgroundImage: NetworkImage(
+                                    conversations[index].user.image),
+                              ),
+                              trailing: Text(timeago
+                                  .format(conversations[index].lastTime)),
+                            ),
                           ),
-                          subtitle: Text(
-                            conversations[index].lastMessage,
-                            style: TextStyle(color: Colors.grey.shade800),
-                          ),
-                          leading: CircleAvatar(
-                            radius: 16,
-                            backgroundImage:
-                                NetworkImage(conversations[index].user.image),
-                          ),
-                          trailing: Text(
-                              timeago.format(conversations[index].lastTime)),
                         ),
-                      ),
+                      );
+                    })
+                : const Center(
+                    child: Text(
+                      "No Conversations",
+                      style:
+                          TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                     ),
                   );
-                });
           }),
     );
   }
